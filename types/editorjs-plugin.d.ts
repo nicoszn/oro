@@ -95,11 +95,11 @@ declare module 'editorjs-text-alignment-blocktune' {
   export default AlignmentTune;
 }
 
-declare module 'editorjs-mathcyou' {
-  import { InlineToolConstructable, BlockToolConstructable } from '@editorjs/editorjs';
-  export const InlineMathTool: InlineToolConstructable;
-  export const MathBlock: BlockToolConstructable;
-}
+// declare module 'editorjs-mathcyou' {
+//   import { InlineToolConstructable, BlockToolConstructable } from '@editorjs/editorjs';
+//   export const InlineMathTool: InlineToolConstructable;
+//   export const MathBlock: BlockToolConstructable;
+// }
 
 declare module '*.pcss' {
   const content: { [className: string]: string };
