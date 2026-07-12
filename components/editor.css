@@ -1,0 +1,191 @@
+@layer base {
+  /* Typography defaults for rendered Markdown content */
+  .oro-md__preview h1,
+  .oro-md__preview h2,
+  .oro-md__preview h3 {
+    font-weight: 700;
+    margin: 0.6em 0 0.3em;
+  }
+
+  .oro-md__preview p {
+    margin: 0.4em 0;
+  }
+
+  .oro-md__preview code {
+    background: var(--oro-surface);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9em;
+  }
+
+  .oro-md__preview pre {
+    background: var(--oro-surface);
+    border-radius: 8px;
+    padding: 10px 12px;
+    overflow-x: auto;
+  }
+
+  .oro-md__preview blockquote {
+    border-left: 3px solid var(--oro-border);
+    margin: 0.4em 0;
+    padding-left: 12px;
+    color: var(--oro-muted);
+  }
+
+  .oro-md__preview ul,
+  .oro-md__preview ol {
+    padding-left: 1.3em;
+    margin: 0.4em 0;
+  }
+}
+
+@layer utilities {
+  .oro-editor {
+    --oro-border: color-mix(in srgb, var(--foreground) 12%, transparent);
+    --oro-muted: color-mix(in srgb, var(--foreground) 55%, transparent);
+    --oro-surface: color-mix(in srgb, var(--foreground) 4%, var(--background));
+    font-family: var(--font-sans, inherit);
+    color: var(--foreground);
+  }
+
+  .oro-editor .codex-editor__redactor {
+    padding-bottom: 120px !important;
+  }
+
+  .oro-editor .ce-block__content,
+  .oro-editor .ce-toolbar__content {
+    max-width: 720px;
+  }
+
+  .oro-editor .ce-paragraph {
+    line-height: 1.7;
+  }
+
+  .oro-block-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--oro-muted);
+    margin-bottom: 6px;
+  }
+
+  /* Markdown block */
+  .oro-md__input {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    border: 1px solid var(--oro-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: var(--font-mono, monospace);
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--oro-surface);
+    color: var(--foreground);
+  }
+
+  .oro-md__input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--foreground) 30%, transparent);
+  }
+
+  .oro-md__preview {
+    margin-top: 10px;
+    padding: 0 2px;
+    line-height: 1.65;
+  }
+
+  .oro-md__preview:empty {
+    display: none;
+  }
+
+  /* Mermaid block */
+  .oro-mmd__preview {
+    border: 1px solid var(--oro-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    background: var(--oro-surface);
+    min-height: 40px;
+  }
+
+  .oro-mmd__preview svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .oro-mmd__preview--error {
+    color: #c0392b;
+    font-size: 13px;
+    justify-content: flex-start;
+  }
+
+  .oro-mmd__input {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    border: 1px solid var(--oro-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    line-height: 1.5;
+    background: var(--oro-surface);
+    color: var(--foreground);
+  }
+
+  .oro-mmd__input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--foreground) 30%, transparent);
+  }
+
+  /* Math block */
+  .oro-math__preview {
+    border: 1px solid var(--oro-border);
+    border-radius: 8px;
+    padding: 18px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    background: var(--oro-surface);
+    min-height: 24px;
+  }
+
+  .oro-math__preview--error {
+    color: #c0392b;
+    font-size: 13px;
+  }
+
+  .oro-math__input {
+    width: 100%;
+    border: 1px solid var(--oro-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--oro-surface);
+    color: var(--foreground);
+  }
+
+  .oro-math__input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--foreground) 30%, transparent);
+  }
+
+  /* Inline math */
+  .oro-inline-math {
+    padding: 0 2px;
+    border-radius: 4px;
+    cursor: text;
+  }
+
+  .oro-inline-math:hover {
+    background: var(--oro-surface);
+  }
+}
