@@ -43,8 +43,9 @@
     "gray-matter": "4.0.3",
     "markdown-it": "14.3.0",
     "markdown-it-container": "4.0.0",
-    "html-react-parser": "6.1.3",  
+    "html-react-parser": "6.1.3"  
   },
+  
   "devDependencies": {
     "@types/katex": "0.16.8",
     "@types/markdown-it": "14.1.2",
