@@ -3,7 +3,7 @@ import { Tier1Scratchpad, Tier2IndexCache, Tier3SemanticGraph } from './tiers';
 import { MemoryRouter } from './memoryRouter';
 
 // Hardcode your OpenRouter API key here
-const OAK = "";
+const OAK = "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";
 
 export class Orchestrator {
   private router: MemoryRouter;
@@ -34,15 +34,37 @@ export class Orchestrator {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "meta-llama/llama-3.2-3b-instruct:free",
+          // "openrouter/free" auto-selects a currently-live free model instead of
+          // a hardcoded slug that can silently get deprecated/removed.
+          model: "openrouter/free",
           messages: [{ role: "user", content: prompt }],
           response_format: jsonMode ? { type: "json_object" } : undefined,
           temperature: 0.0
         })
       });
+
+      if (!response.ok) {
+        const errBody = await response.text();
+        const msg = `OpenRouter HTTP ${response.status}: ${errBody.slice(0, 300)}`;
+        console.error(msg);
+        this.logs.push(`  ⚠ ${msg}`);
+        return "";
+      }
+
       const data = await response.json() as any;
+
+      if (data.error) {
+        const msg = `OpenRouter API error: ${data.error.message || JSON.stringify(data.error)}`;
+        console.error(msg);
+        this.logs.push(`  ⚠ ${msg}`);
+        return "";
+      }
+
       return data.choices?.[0]?.message?.content?.trim() || "";
-    } catch {
+    } catch (err) {
+      const msg = `OpenRouter request failed: ${err instanceof Error ? err.message : String(err)}`;
+      console.error(msg);
+      this.logs.push(`  ⚠ ${msg}`);
       return "";
     }
   }
