@@ -1,5 +1,5 @@
 import mermaid from "mermaid";
-import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig, SanitizeConfig } from "@editorjs/editorjs";
+import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig} from "@editorjs/editorjs";
 
 let initialized = false;
 let renderCount = 0;
@@ -117,7 +117,7 @@ export default class MermaidTool implements BlockTool {
     return this.data;
   }
 
-  static get sanitize(): SanitizeConfig {
+  static get sanitize() {
     // Raw diagram source, not HTML.
     return { code: true };
   }
