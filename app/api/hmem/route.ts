@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { runSimulation } from '@/lib';
+import { runSimulation } from '@/lib/hmem';
 
 export async function GET() {
   console.log("start get")
