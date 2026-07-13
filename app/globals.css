@@ -24,3 +24,55 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+
+/* -------------------------------------------------------------
+ * Block Math Component Framework Styles
+ * ------------------------------------------------------------- */
+.cdx-math-block {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background-color: var(--color-zinc-50);
+  border: 1px solid var(--color-zinc-200);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Clear display style properties for the equation preview box */
+.cdx-math-preview {
+  padding: 0.5rem;
+  overflow-x: auto;
+  min-height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the LaTeX input code textarea panel */
+.cdx-math-input {
+  width: 100%;
+  min-height: 56px;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-sm);
+  padding: 0.5rem 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-zinc-300);
+  border-radius: var(--radius-md);
+  color: var(--color-zinc-700);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.cdx-math-input:focus {
+  border-color: var(--color-indigo-500);
+}
+
+/* Hide the input box when the editor block is not actively focused */
+.ce-block:not(.ce-block--focused) .cdx-math-input {
+  display: none;
+}
+
