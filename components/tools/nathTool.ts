@@ -1,22 +1,32 @@
 import katex from "katex";
+import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig, SanitizeConfig } from "@editorjs/editorjs";
+
+interface MathToolData extends BlockToolData {
+  tex: string;
+}
 
 /**
  * Block Tool for Editor.js — a standalone, display-mode LaTeX equation.
  * Output data: { tex: string } — the raw LaTeX source.
  */
-export default class MathTool {
-  static get toolbox() {
+export default class MathTool implements BlockTool {
+  private data: MathToolData;
+  private wrapper: HTMLDivElement | null = null;
+  private preview: HTMLDivElement | null = null;
+  private input: HTMLInputElement | null = null;
+
+  static get toolbox(): ToolboxConfig {
     return {
       title: "Math",
-      icon: '<svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><text x="10" y="15" font-size="14" text-anchor="middle" fill="currentColor" font-family="Georgia, serif">&#8721;</text></svg>',
+      icon: '<svg width="18" height="18" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><text x="10" y="15" font-size="14" text-anchor="middle" fill="currentColor" font-family="Georgia, serif">∑</text></svg>',
     };
   }
 
-  constructor({ data }) {
-    this.data = { tex: data.tex || "" };
+  constructor({ data }: BlockToolConstructorOptions<MathToolData>) {
+    this.data = { tex: data?.tex || "" };
   }
 
-  render() {
+  render(): HTMLElement {
     this.wrapper = document.createElement("div");
     this.wrapper.classList.add("oro-math");
 
@@ -41,7 +51,9 @@ export default class MathTool {
     return this.wrapper;
   }
 
-  update() {
+  private update(): void {
+    if (!this.input || !this.preview) return;
+
     this.data.tex = this.input.value;
     const tex = this.data.tex.trim();
 
@@ -60,11 +72,11 @@ export default class MathTool {
     }
   }
 
-  save() {
+  save(): MathToolData {
     return this.data;
   }
 
-  static get sanitize() {
+  static get sanitize(): SanitizeConfig {
     // Raw LaTeX source, not HTML.
     return { tex: true };
   }
