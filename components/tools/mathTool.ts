@@ -1,5 +1,5 @@
 import katex from "katex";
-import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig, SanitizeConfig } from "@editorjs/editorjs";
+import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig } from "@editorjs/editorjs";
 
 interface MathToolData extends BlockToolData {
   tex: string;
@@ -68,7 +68,7 @@ export default class MathTool implements BlockTool {
     return this.data;
   }
 
-  static get sanitize(): SanitizeConfig {
+  static get sanitize(){
     // Raw LaTeX source, not HTML.
     return { tex: true };
   }
