@@ -1,6 +1,6 @@
 import { marked } from "marked";
 import DOMPurify from "dompurify";
-import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig, SanitizeConfig } from "@editorjs/editorjs";
+import { BlockTool, BlockToolConstructorOptions, BlockToolData, ToolboxConfig } from "@editorjs/editorjs";
 
 marked.setOptions({ breaks: true, gfm: true });
 
@@ -78,7 +78,7 @@ export default class MarkdownTool implements BlockTool {
     return this.data;
   }
 
-  static get sanitize(): SanitizeConfig {
+  static get sanitize(){
     // Raw markdown source, not HTML — trust it as-is (rendering is sanitized separately).
     return { text: true };
   }
