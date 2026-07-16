@@ -130,11 +130,17 @@ export class Tier3SemanticGraph {
     return this.graph.nodes.has(id);
   }
 
+  // NEW: retrieve a node by id
+  public getNode(id: string): GraphNode | undefined {
+    return this.graph.nodes.get(id);
+  }
+
   public connectNodes(source: string, target: string, startingWeight: number): void {
     if (!this.graph.nodes.has(source) || !this.graph.nodes.has(target)) return;
     const existingEdge = this.graph.edges.find(e => e.sourceId === source && e.targetId === target);
     if (existingEdge) {
-      existingEdge.weight = 1 - (1 - existingEdge.weight) * (1 - startingWeight);
+      // Reinforcement: increase weight on reuse, saturate at 1
+      existingEdge.weight = Math.min(1, existingEdge.weight + 0.1);
     } else {
       this.graph.edges.push({ sourceId: source, targetId: target, weight: startingWeight });
     }
