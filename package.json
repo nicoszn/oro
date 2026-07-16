@@ -28,6 +28,7 @@
     "@editorjs/link": "^2.6.2",
     "@editorjs/footnotes": "^1.1.0",
     "@phigoro/editorjs-toc": "^1.1.11",
+    "@xenova/transformers": "2.17.2",
     "editorjs-text-alignment-blocktune": "^1.0.3",
     "katex": "^0.13.24",
     "docx": "^9.7.1",
