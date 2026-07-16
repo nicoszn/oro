@@ -2,7 +2,6 @@ import { SchemaExtractionPayload } from './types';
 import { Tier1Scratchpad, Tier2IndexCache, Tier3SemanticGraph } from './tiers';
 import { MemoryRouter } from './memoryRouter';
 
-// Hardcode your OpenRouter API key here
 const OAK = "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";
 
 export class Orchestrator {
@@ -34,8 +33,6 @@ export class Orchestrator {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          // "openrouter/free" auto-selects a currently-live free model instead of
-          // a hardcoded slug that can silently get deprecated/removed.
           model: "openrouter/free",
           messages: [{ role: "user", content: prompt }],
           response_format: jsonMode ? { type: "json_object" } : undefined,
@@ -52,14 +49,12 @@ export class Orchestrator {
       }
 
       const data = await response.json() as any;
-
       if (data.error) {
         const msg = `OpenRouter API error: ${data.error.message || JSON.stringify(data.error)}`;
         console.error(msg);
         this.logs.push(`  ⚠ ${msg}`);
         return "";
       }
-
       return data.choices?.[0]?.message?.content?.trim() || "";
     } catch (err) {
       const msg = `OpenRouter request failed: ${err instanceof Error ? err.message : String(err)}`;
@@ -70,32 +65,36 @@ export class Orchestrator {
   }
 
   private async extractStructuredSchema(text: string): Promise<SchemaExtractionPayload | null> {
-    const strictExtractionPrompt = `
-You are a precise data parsing compiler. Extract metadata from this text step.
-Target Text: "${text}"
+    const prompt = `
+You are a precise data parser. Extract metadata from this text:
+"${text}"
 
-You must output exactly one valid JSON object and nothing else. Follow this schema:
+Output JSON:
 {
-  "conceptId": "Single lowercase word identifying the main object or key state",
-  "description": "Short explanation of what occurred",
+  "conceptId": "single lowercase word for main object/state",
+  "description": "short explanation",
   "relationshipTargetId": "global_root",
-  "confidenceWeight": 0.85
+  "confidenceWeight": <number between 0 and 1, based on how certain you are and how important this concept is>
 }
-    `.trim();
+`.trim();
 
-    const cloudJsonOutput = await this.callCloudLLM(strictExtractionPrompt, true);
+    const cloudJsonOutput = await this.callCloudLLM(prompt, true);
     try {
       return JSON.parse(cloudJsonOutput) as SchemaExtractionPayload;
     } catch {
-      // fallback patterns
-      if (text.includes("KEY") || text.includes("BRONZE")) {
-        return { conceptId: "bronze_key", description: "Located physical key asset", relationshipTargetId: "global_root", confidenceWeight: 0.90 };
-      }
-      if (text.includes("LEVER") || text.includes("SWITCH")) {
-        return { conceptId: "lever_state", description: "Altered system hardware configurations", relationshipTargetId: "global_root", confidenceWeight: 0.95 };
-      }
       return null;
     }
+  }
+
+  // Cosine similarity between two vectors (assumed normalized)
+  private cosineSimilarity(vecA: number[], vecB: number[]): number {
+    if (vecA.length === 0 || vecB.length === 0) return 0;
+    let dot = 0;
+    for (let i = 0; i < vecA.length; i++) {
+      dot += vecA[i] * vecB[i];
+    }
+    // Vectors are already normalized by generateDeterministicEmbedding
+    return Math.max(0, Math.min(1, dot));
   }
 
   public async executeAgentTurn(agentId: string, inputPayload: string): Promise<string> {
@@ -106,17 +105,30 @@ You must output exactly one valid JSON object and nothing else. Follow this sche
 
     const extractedMeta = await this.extractStructuredSchema(inputPayload);
     if (extractedMeta) {
+      // Generate embedding for the new concept
+      const newEmbedding = this.t2.generateDeterministicEmbedding(extractedMeta.description);
+
+      // Blend LLM confidence with embedding similarity to target node
+      const targetNode = this.t3.getNode(extractedMeta.relationshipTargetId);
+      let similarity = 0.5; // default neutral
+      if (targetNode && targetNode.anchorEmbedding.length > 0) {
+        similarity = this.cosineSimilarity(newEmbedding, targetNode.anchorEmbedding);
+      }
+      // Weight = average of LLM confidence and similarity (both 0-1)
+      let finalWeight = (extractedMeta.confidenceWeight + similarity) / 2;
+      finalWeight = Math.max(0, Math.min(1, finalWeight));
+
       if (!this.t3.hasNode(extractedMeta.conceptId)) {
         this.t3.insertNode({
           id: extractedMeta.conceptId,
-          anchorEmbedding: this.t2.generateDeterministicEmbedding(extractedMeta.description),
+          anchorEmbedding: newEmbedding,
           description: extractedMeta.description,
           lastValidatedTurn: this.currentTurn
         });
         this.logs.push(`  → Inserted graph node: ${extractedMeta.conceptId}`);
       }
-      this.t3.connectNodes(extractedMeta.relationshipTargetId, extractedMeta.conceptId, extractedMeta.confidenceWeight);
-      this.logs.push(`  → Connected ${extractedMeta.relationshipTargetId} -> ${extractedMeta.conceptId} (weight: ${extractedMeta.confidenceWeight})`);
+      this.t3.connectNodes(extractedMeta.relationshipTargetId, extractedMeta.conceptId, finalWeight);
+      this.logs.push(`  → Connected ${extractedMeta.relationshipTargetId} -> ${extractedMeta.conceptId} (weight: ${finalWeight.toFixed(3)})`);
     }
 
     const historicalManifest = this.t1.getActivePromptContext();
@@ -135,9 +147,12 @@ Role Action Command: As ${agentId}, provide a single sentence update analyzing t
     this.t3.backgroundOptimizationCycle();
     this.logs.push(`  → Background optimization cycle complete.`);
 
-    const response = cloudTextOutput || `[Cloud Fallback] System logged data for ${agentId} into local memory matrices.`;
-    this.logs.push(`  → Response: ${response}`);
-    return response;
+    if (!cloudTextOutput) {
+      throw new Error(`Cloud LLM call failed for agent ${agentId} at turn ${this.currentTurn}`);
+    }
+
+    this.logs.push(`  → Response: ${cloudTextOutput}`);
+    return cloudTextOutput;
   }
 
   public getGraphSnapshot(): string {
