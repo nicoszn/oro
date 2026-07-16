@@ -12,12 +12,24 @@ export async function runSimulation() {
   const t3 = new Tier3SemanticGraph();
   const orchestrator = new Orchestrator(t1, t2, t3);
 
+  // Four new agents with distinct names, roles, and one command each
   const simulationSteps = [
-    { agent: "Explorer_Agent", command: "Entered room 1 area. Located structural safe chest component. Found [BRONZE KEY] inside wall cabinet." },
-    { agent: "Cartographer_Agent", command: "Verifying tracking coordinates for room 1 workspace. East doorway boundary requires system unlock metrics." },
-    { agent: "Explorer_Agent", command: "Applied collected [BRONZE KEY] to east doorway. Interlocking latch disengaged. Moving to room 2 room space." },
-    { agent: "Cartographer_Agent", command: "Updating layout models. Room 2 confirmed active node. Initiating baseline network sweeps." },
-    { agent: "Explorer_Agent", command: "Discovered active electrical breaker layout panel inside room 2. Pulled high-voltage switch lever downward." }
+    {
+      agent: "Security_Agent",
+      command: "Scanned biometric authentication logs. Detected anomalous entry attempt at sector 7."
+    },
+    {
+      agent: "Logistics_Agent",
+      command: "Updated supply manifest. Crate #4421 missing from warehouse bay 3."
+    },
+    {
+      agent: "Communications_Agent",
+      command: "Relayed encrypted handshake to satellite relay. Connection established with 98% signal strength."
+    },
+    {
+      agent: "Analytics_Agent",
+      command: "Executed regression on telemetry data. Temperature variance exceeds threshold by 12%."
+    }
   ];
 
   for (const step of simulationSteps) {
