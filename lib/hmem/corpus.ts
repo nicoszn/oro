@@ -1,0 +1,48 @@
+// Warm-up corpus for training PQ codebooks before any real agent traffic
+// exists. Domain-relevant phrases across your simulation's agent roles so
+// the initial centroid spread isn't arbitrary. As real committed blocks
+// accumulate in Tier2 over actual usage, prefer retraining against that
+// instead of this static seed (see SETUP notes for the incremental idea).
+
+export const SEED_CORPUS: string[] = [
+  "Scanned biometric authentication logs for anomalous entry attempts.",
+  "Detected unauthorized access pattern at a restricted sector.",
+  "Security clearance validation failed for an unrecognized credential.",
+  "Intrusion detection system flagged repeated failed login attempts.",
+  "Firewall rule updated to block suspicious inbound traffic.",
+  "Audit trail reviewed for signs of privilege escalation.",
+  "Updated supply manifest after inventory reconciliation.",
+  "Crate missing from warehouse bay during routine stock check.",
+  "Shipment delayed due to customs clearance backlog.",
+  "Logistics route optimized to reduce delivery time.",
+  "Inventory threshold breached, triggering automatic reorder.",
+  "Fleet vehicle scheduled for maintenance after mileage threshold.",
+  "Relayed encrypted handshake to satellite relay station.",
+  "Connection established with high signal strength to remote node.",
+  "Communications channel degraded due to atmospheric interference.",
+  "Message queue backlog cleared after bandwidth reallocation.",
+  "Encrypted tunnel renegotiated after certificate expiry.",
+  "Broadcast signal rebroadcast across redundant relay stations.",
+  "Executed regression analysis on telemetry data stream.",
+  "Temperature variance exceeded acceptable operating threshold.",
+  "Statistical anomaly detected in sensor readings over time window.",
+  "Trend analysis indicates gradual performance degradation.",
+  "Data pipeline ingested new batch of telemetry for processing.",
+  "Model output flagged for manual review due to low confidence.",
+  "Memory tier evicted stale context blocks under token pressure.",
+  "Semantic graph node inserted representing a new concept relationship.",
+  "Vector index committed a compressed representation of recent context.",
+  "Attention weight decayed below threshold, triggering archival.",
+  "Graph edge pruned due to weak relational weight over time.",
+  "Background optimization cycle reclaimed unused graph nodes.",
+  "Agent orchestrator routed a new event to the appropriate memory tier.",
+  "Multi-agent system coordinated a handoff between specialized roles.",
+  "Task delegated from orchestrator to a downstream execution agent.",
+  "System state snapshot captured for later retrieval and analysis.",
+  "Retrieval query matched closest stored context via similarity search.",
+  "Embedding generated to represent the semantic content of a message.",
+  "Quantized vector stored in compressed index for efficient lookup.",
+  "Cosine similarity computed between query and stored representations.",
+  "Hierarchical memory routed short-term context into long-term storage.",
+  "Agent turn completed with a structured summary of the interaction.",
+];
