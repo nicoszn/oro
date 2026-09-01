@@ -1,7 +1,7 @@
 import { and, eq, cosineDistance } from "drizzle-orm";
 import { db } from "@/db";
-import { episodicMemories } from "@/db/schema";
-import { hashEmbed } from "@/embeddings/hash";
+import { episodicMemories } from "@/lib/src/db/schema";
+import { hashEmbed } from "@/lib/src/embeddings/hash";
 
 export async function recall(agentId: string, taskType: string, query: string, k = 5) {
   const queryVec = hashEmbed(query);
