@@ -1,5 +1,5 @@
 import { eq, and } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/lib/src/db";
 import { teamFacts, pendingConflicts } from "@/lib/src/db/schema";
 
 export async function commitFact(
