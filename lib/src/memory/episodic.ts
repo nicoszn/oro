@@ -1,5 +1,5 @@
 import { and, eq, cosineDistance } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/lib/src/db";
 import { episodicMemories } from "@/lib/src/db/schema";
 import { hashEmbed } from "@/lib/src/embeddings/hash";
 
