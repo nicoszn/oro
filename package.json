@@ -36,6 +36,7 @@
     "@xenova/transformers": "2.17.2",
     "editorjs-text-alignment-blocktune": "^1.0.3",
     "katex": "^0.13.24",
+    "dexie": "^4.4.5",
     "docx": "^9.7.1",
     "jszip": "^3.10.1",
     "lucide-react": "^1.25.0",
