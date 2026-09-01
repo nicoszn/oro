@@ -1,6 +1,6 @@
 import { eq, and } from "drizzle-orm";
 import { db } from "@/db";
-import { teamFacts, pendingConflicts } from "@/db/schema";
+import { teamFacts, pendingConflicts } from "@/lib/src/db/schema";
 
 export async function commitFact(
   agentId: string,
