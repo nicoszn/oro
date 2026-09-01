@@ -1,8 +1,8 @@
 import { StateGraph, MessagesAnnotation, MemorySaver } from "@langchain/langgraph";
 import { ChatOpenRouter } from "@langchain/openrouter";
-import { plannerNode } from "@/agents/planner";
-import { workerNode } from "@/agents/worker";
-import { reviewerNode } from "@/agents/reviewer";
+import { plannerNode } from "@/lib/src/agents/planner";
+import { workerNode } from "@/lib/src/agents/worker";
+import { reviewerNode } from "@/lib/src/agents/reviewer";
 
 export const llm = new ChatOpenRouter({
   model: process.env.OPENROUTER_MODEL!,
