@@ -5,7 +5,7 @@ import type EditorJS from "@editorjs/editorjs";
 import type { OutputData, ToolConstructable, ToolSettings } from "@editorjs/editorjs";
 import "katex/dist/katex.min.css";
 
-import "./editor.css";
+// import "./editor.css";
 
 const STORAGE_KEY = "oro-editor-content";
 
