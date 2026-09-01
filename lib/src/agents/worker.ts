@@ -1,8 +1,8 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
-import { llm } from "@/graph";
-import { webSearchTool } from "@/tools/web-search";
-import { writeFileTool, runTestsTool } from "@/tools/sandbox";
-import { MemoryRouter } from "@/memory/router";
+import { llm } from "@/lib/src/graph";
+import { webSearchTool } from "@/lib/src/tools/web-search";
+import { writeFileTool, runTestsTool } from "@/lib/src/tools/sandbox";
+import { MemoryRouter } from "@/lib/src/memory/router";
 
 export async function workerNode(state: any) {
   const { taskId, taskType, plan, messages } = state;
