@@ -1,5 +1,5 @@
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
-import { llm } from "@/graph";
+import { llm } from "@/lib/src/graph";
 
 export async function plannerNode(state: any) {
   const userMessage = state.messages[state.messages.length - 1];
