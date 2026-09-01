@@ -1,4 +1,4 @@
-import { commitFact } from "@/memory/team";
+import { commitFact } from "@/lib/src/memory/team";
 
 export async function POST(req: Request) {
   const { agentId, taskId, factKey, factValue } = await req.json();
