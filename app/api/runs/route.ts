@@ -1,4 +1,4 @@
-import { buildGraph } from "@/graph";
+import { buildGraph } from "@/lib/src/graph";
 
 export const maxDuration = 300; // 5 min (Hobby) – set to 800 on Pro
 
